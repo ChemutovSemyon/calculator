@@ -18,9 +18,34 @@ public class Calculator {
                 if (isDigit(s[0]) && isDigit(s[2])) {
                     firstValue = Integer.parseInt(s[0]);
                     secondValue = Integer.parseInt(s[2]);
+
+                    if (firstValue >= 1 && firstValue <= 10 && secondValue >= 1 && secondValue <= 10) {
+                        System.out.println(calculate(firstValue, secondValue, operator));
+                    } else {
+                        throw new WrongExpressionExeption("Одно или оба числа больше 10 или меньше 1");
+                    }
+
                 } else if (RomanNumbers.isRoman(s[0]) && RomanNumbers.isRoman(s[2])) {
+                    s[0] = s[0].toUpperCase();
+                    s[2] = s[2].toUpperCase();
                     firstValue = RomanNumbers.convertRomanToInteger(s[0]);
                     secondValue = RomanNumbers.convertRomanToInteger(s[2]);
+
+                    if (firstValue >= 1 && firstValue <= 10 && secondValue >= 1 && secondValue <= 10) {
+                        int result = calculate(firstValue, secondValue, operator);
+
+                        if (result == 0) {
+                            throw new WrongExpressionExeption("В эпоху римских цифр ноль не был изобретен");
+                        } else if (result < 0) {
+                            throw new WrongExpressionExeption("Римские числа не могут быть отрицательными");
+                        } else {
+                            System.out.println(RomanNumbers.convertIntegerToRoman(result));
+                        }
+
+                    } else {
+                        throw new WrongExpressionExeption("Одно или оба числа больше 10 или меньше 1");
+                    }
+
                 } else {
                     throw new NumberFormatException("Оба числа должны быть римскими либо арабскими");
                 }
@@ -28,11 +53,6 @@ public class Calculator {
                 throw new IllegalArgumentException("Неверный арифметический оператор");
             }
 
-            if (firstValue >= 1 && firstValue <= 10 && secondValue >= 1 && secondValue <= 10) {
-                System.out.println(calculate(firstValue, secondValue, operator));
-            } else {
-                throw new WrongExpressionExeption("Одно или оба числа больше 10 или меньше 1");
-            }
 
         } catch (IOException | WrongExpressionExeption e) {
             e.printStackTrace();
